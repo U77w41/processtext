@@ -2,13 +2,13 @@
 import pathlib
 import os
 import codecs
-from setuptools import setup
+from setuptools import setup, find_packages
 
 HERE = pathlib.Path(__file__).parent.resolve()
 
 # Get the long description from the README file
 long_description = (HERE / 'README.md').read_text(encoding='utf-8')
-__version__ = '0.0.1'
+__version__ = '0.0.3'
 __maintainer__ = 'Ujjwal Chowdhury'
 
 
@@ -23,7 +23,7 @@ setup(
     license='MIT',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    packages=['processtext'],
+    packages=find_packages(),
     install_requires=['nltk','re','autocorrect','string'],
     tests_require=['pytest'],
     keywords= ['python','nlp','text','regex', 'text processing']
