@@ -1,2 +1,4 @@
+regex
+strings
 nltk~=3.6.5
 autocorrect
