@@ -33,7 +33,7 @@ To install using pip, use
 * **clean**: to clean raw text and return the cleaned text
 * **clean_l**: to clean raw text and return a list of clean words
 
-##### The processtext.clean() function can apply all, or a selected combination of the following cleaning operations:
+##### The processtext.clean() and processtext.clean_l() function can apply all, or a selected combination of the following cleaning operations:
 * Remove special symbols/characters
 * Remove digits from the text
 * Remove punctuations from the text
@@ -176,7 +176,7 @@ four hundred and fifty-six point zero nine eight seven six
 
 ``` python
 import processtext as pt
-int_to_text('First 100 twin primes have values between 3 & 5 and 3821 & 3823')
+pt.int_to_text('First 100 twin primes have values between 3 & 5 and 3821 & 3823')
 ```
 
 returns,
@@ -188,7 +188,7 @@ First one hundred twin primes have values between three & five and three thousan
 
 ``` python
 import processtext as pt
-float_to_text('The first 10 digits of pi are 3.141592653')
+pt.float_to_text('The first 10 digits of pi are 3.141592653')
 ```
 
 returns,
@@ -201,7 +201,7 @@ The first ten point zero digits of pi are three point one four one five nine two
 
 ``` python
 import processtext as pt
-decontract_strings("I can't believe he'll be graduating from college in just a few months.")
+pt.decontract_strings("I can't believe he'll be graduating from college in just a few months.")
 ```
 
 returns,
@@ -214,7 +214,7 @@ I can not believe he will be graduating from college in just a few months.
 
 ``` python
 import processtext as pt
-remove_emoji("🌞🌊☀️ Just spent an amazing day at the beach with my friends! 🏖️👭👬 We built sandcastles 🏰, played beach volleyball 🏐, and even went for a swim 🏊‍♀️🏊‍♂️. The sun was shining ☀️ and the water was so refreshing 💦. Can't wait to do it again! 🤩👍")
+pt.remove_emoji("🌞🌊☀️ Just spent an amazing day at the beach with my friends! 🏖️👭👬 We built sandcastles 🏰, played beach volleyball 🏐, and even went for a swim 🏊‍♀️🏊‍♂️. The sun was shining ☀️ and the water was so refreshing 💦. Can't wait to do it again! 🤩👍")
 ```
 
 returns,
@@ -227,7 +227,7 @@ returns,
 
 ``` python
 import processtext as pt
-clean_text('The password must contain at least one symbol such as !,^,*,+,=,%,$,~,?,/,<>,|@, #, or %.')
+pt.clean_text('The password must contain at least one symbol such as !,^,*,+,=,%,$,~,?,/,<>,|@, #, or %.')
 ```
 
 returns,
