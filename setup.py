@@ -8,7 +8,7 @@ HERE = pathlib.Path(__file__).parent.resolve()
 
 # Get the long description from the README file
 long_description = (HERE / 'README.md').read_text(encoding='utf-8')
-__version__ = '0.0.5'
+__version__ = '0.0.8'
 __maintainer__ = 'Ujjwal Chowdhury'
 
 
@@ -24,7 +24,11 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=find_packages(),
-    install_requires=['nltk','re','autocorrect','string'],
+    install_requires=['nltk','autocorrect'],
     tests_require=['pytest'],
     keywords= ['python','nlp','text','regex', 'text processing']
 )
+
+#################################################################################################################
+# python3 setup.py sdist bdist_wheel
+# twine upload dist/*
