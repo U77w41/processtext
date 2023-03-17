@@ -1,7 +1,8 @@
 # processtext
 
+**processtext** is a an open-source python package to clean raw text data.          
 
-**processtext** is a an open-source python package to clean raw text data.
+
 
 ## Installation
 
@@ -11,7 +12,7 @@ To install using pip, use
 
 `pip install processtext`
 
-
+[![Downloads](https://static.pepy.tech/personalized-badge/processtext?period=month&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/processtext)
 
 ## Features 
 
