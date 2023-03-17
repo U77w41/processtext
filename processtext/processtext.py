@@ -1,4 +1,9 @@
-"""texttools"""
+######################################################################################################################################## 
+#                                                        prcesstext                                                                    #
+########################################################################################################################################
+
+
+# Importing necessary packages
 import re
 import nltk
 import string 
@@ -10,13 +15,14 @@ from .exceptions import CleanTextEmptyString
 
 nltk.download('stopwords')
 nltk.download('wordnet')
+nltk.download('omw-1.4')
 
 lemmatizer = WordNetLemmatizer()
 
 
 
 
-# Removing comma(,) in between number e.g 12,000 -> 12000
+# Removing comma(,) in between numbers inside a string e.g 12,000 -> 12000
 def degroup_num(text : str)-> str:
     """Given raw string returns comma removed numbers. It is necessary because sometimes in text data numbers are grouped by commas(,)
     
@@ -195,9 +201,9 @@ def float_to_en(f)-> str:
 # Replacing all the whole numbers inside string into English text
 
 def int_to_text(text: str)-> str:
-    """Return english text of floating point numbers.
+    """Replacing all the whole numbers inside string into English text.
     
-    :param num: Input str or int
+    :param num: Input str
     """
     # Split the string into words
     words = text.split() 
@@ -214,6 +220,10 @@ def int_to_text(text: str)-> str:
 # Replacing all the positive non interger numbers inside string into English text
 
 def float_to_text(string: str)-> str:
+    """Replacing all the flaoting point numbers inside string into English text.
+    
+    :param num: Input str
+    """ 
     words = []
     for word in string.split():
         try:
@@ -228,6 +238,11 @@ def float_to_text(string: str)-> str:
 # Decontracting strings
 
 def decontract_strings(string: str)-> str:
+    """Decontracting strings.
+    
+    :param num: Input str
+    """ 
+    
     # Doing for ' symbol
     # specific
     string = re.sub(r"won't", "will not", string)
@@ -369,8 +384,8 @@ def remove_sw(text: str)-> str:
 def clean(text: str,  # pylint: disable=too-many-arguments, too-many-branches
           clean_all: bool = True,
           extra_spaces: bool = False,
-          lemmatisation: bool = False,
-          stopwords: bool = False,
+          lemmatize: bool = False,
+          sw: bool = False,
           lowercase: bool = False,
           numbers: bool = False,
           punct: bool = False,
@@ -382,8 +397,8 @@ def clean(text: str,  # pylint: disable=too-many-arguments, too-many-branches
     :param text: Input text to clean
     :param clean_all: Execute all cleaning operations
     :param extra_spaces: Remove extra white spaces
-    :param lemmatisation: Lemmatized the words
-    :param stopwords: Remove stop words
+    :param lemmatize: Lemmatized the words
+    :param sw: Remove stop words
     :param lowercase: Convert to lowercase
     :param numbers: Remove all digits
     :param punct: Remove all punctuations
@@ -417,7 +432,7 @@ def clean(text: str,  # pylint: disable=too-many-arguments, too-many-branches
                         if word not in string.punctuation])
         text = "".join([_ for _ in text if not _.isdigit()])
         tokens = text.split()
-        text = " ".join([ps.stem(word) for word in tokens
+        text = " ".join([lemmatizer.lemmatize(word) for word in tokens
                          if word not in stop_words])
         return text.strip()
 
@@ -432,13 +447,13 @@ def clean(text: str,  # pylint: disable=too-many-arguments, too-many-branches
         text = "".join([word for word in text
                         if word not in string.punctuation])
 
-    if lemmatisation:
+    if lemmatize:
         text = text.split()
         text = " ".join([lemmatizer.lemmatize(word,pos='v') for word in text])
 
 
 
-    if stopwords:
+    if sw:
         text = text.split()
         text = " ".join([word for word in text if word not in stop_words])
 
@@ -449,8 +464,8 @@ def clean(text: str,  # pylint: disable=too-many-arguments, too-many-branches
 def clean_l(text: str,  # pylint: disable=too-many-arguments
                 clean_all: bool = True,
                 extra_spaces: bool = False,
-                stemming: bool = False,
-                stopwords: bool = False,
+                lemmatize: bool = False,
+                sw: bool = False,
                 lowercase: bool = False,
                 numbers: bool = False,
                 punct: bool = False,
@@ -471,7 +486,7 @@ def clean_l(text: str,  # pylint: disable=too-many-arguments
     :param reg_replace: Replace the part with regular expression(reg)
     :param stp_lang: Language for stop words
     """
-    text = clean(text, clean_all, extra_spaces, lemmatisation, stopwords, lowercase,
+    text = clean(text, clean_all, extra_spaces, lemmatize, sw, lowercase,
                  numbers, punct, reg, reg_replace, stp_lang)
 
     return text.split()
