@@ -1,4 +1,9 @@
-"""texttools"""
+######################################################################################################################################## 
+#                                                        prcesstext                                                                    #
+########################################################################################################################################
+
+
+# Importing necessary packages
 import re
 import nltk
 import string 
@@ -12,7 +17,7 @@ nltk.download('stopwords')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 
-lemmatizer = WordNetLemmatizerUsin()
+lemmatizer = WordNetLemmatizer()
 
 
 
@@ -324,7 +329,6 @@ def clean_text(text: str)-> str:
     text= re.sub('”','', text)
     text= re.sub('»','', text)
     text= re.sub('“','', text)
-    
     return text
 
 
