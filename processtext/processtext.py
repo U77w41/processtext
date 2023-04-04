@@ -1,9 +1,4 @@
-######################################################################################################################################## 
-#                                                        prcesstext                                                                    #
-########################################################################################################################################
-
-
-# Importing necessary packages
+"""texttools"""
 import re
 import nltk
 import string 
@@ -17,7 +12,7 @@ nltk.download('stopwords')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 
-lemmatizer = WordNetLemmatizer()
+lemmatizer = WordNetLemmatizerUsin()
 
 
 
@@ -321,6 +316,15 @@ def clean_text(text: str)-> str:
     text= re.sub("[+%|):@(€¥£—•;=*]"," ",text)
     text= re.sub(r'[^\x00-\x7F]+',' ', text)
     text= re.sub('^\d+\s|\s\d+\s|\s\d+$',' ', text)
+    text= re.sub('’','', text)
+    text= re.sub('₹',' ', text)
+    text= re.sub('“','', text)
+    text= re.sub('—',' ', text)
+    text= re.sub('—',' ', text)
+    text= re.sub('”','', text)
+    text= re.sub('»','', text)
+    text= re.sub('“','', text)
+    
     return text
 
 
