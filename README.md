@@ -12,7 +12,7 @@ To install using pip, use
 
 `pip install processtext`
 
-[![Downloads](https://static.pepy.tech/badge/processtext/month)](https://pepy.tech/project/processtext)
+[![Downloads](https://static.pepy.tech/badge/processtext)](https://pepy.tech/project/processtext)
 
 ## Features 
 

@@ -17,8 +17,6 @@ nltk.download('stopwords')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 
-lemmatizer = WordNetLemmatizer()
-
 # Removing comma(,) in between numbers inside a string e.g 12,000 -> 12000
 def degroup_num(text : str)-> str:
     """Given raw string returns comma removed numbers. It is necessary because sometimes in text data numbers are grouped by commas(,)
@@ -371,7 +369,6 @@ def lowercase(text: str)-> str:
     text= text.lower()
     return text
 
-
 # Correcting spelling mistakes
 def autocorrect(text:str, default_language_code = 'en')-> str:
     """This function autocorrects input text
@@ -383,27 +380,36 @@ def autocorrect(text:str, default_language_code = 'en')-> str:
     Returns:
         str: Modified text
     """
-
-    # Create a Speller instance
     spell = Speller(default_language_code)
-
-    # Split the input text into words, autocorrect each word, and join them back
     corrected_words = [spell(word) for word in text.split()]
-
-    # Join the corrected words to form the autocorrected text
     autocorrected_text = ' '.join(corrected_words)
-
     return autocorrected_text
 
 # Lematization
-def lemmatize(text: str)-> str:
+def lemmatize(text: str, pos = 'v', correct_typos = False)-> str:
     """Lemmatize the input texts.
-    
-    :param num: Input str
+
+    Args:
+        text (str): Input string
+        pos (str, optional): The Part Of Speech tag. Valid options are `"n"` for nouns,
+            `"v"` for verbs, `"a"` for adjectives, `"r"` for adverbs and `"s"`
+            for satellite adjectives.. Defaults to 'v'.
+        correct_typos (bool, optional): Corrects the spelling minstakes for english texts. Defaults to False.
+
+    Returns:
+        str: Lemmatized text
     """
-    words = text.split()
-    words = [lemmatizer.lemmatize(word,pos='v') for word in words]
-    return ' '.join(words)
+    if correct_typos:
+        text = autocorrect(text)
+        lemmatizer = WordNetLemmatizer()
+        words = text.split()
+        words = [lemmatizer.lemmatize(word,pos=pos) for word in words]
+        return ' '.join(words)
+    else:
+        lemmatizer = WordNetLemmatizer()
+        words = text.split()
+        words = [lemmatizer.lemmatize(word,pos=pos) for word in words]
+        return ' '.join(words)
 
 # Removing Stop words
 def remove_sw(text: str,
