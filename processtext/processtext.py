@@ -8,7 +8,7 @@ import re
 import nltk
 import string 
 from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer 
+from nltk.stem import WordNetLemmatizer
 from autocorrect import Speller
 from .exceptions import CleanTextEmptyString
 
@@ -19,39 +19,41 @@ nltk.download('omw-1.4')
 
 lemmatizer = WordNetLemmatizer()
 
-
-
-
 # Removing comma(,) in between numbers inside a string e.g 12,000 -> 12000
 def degroup_num(text : str)-> str:
     """Given raw string returns comma removed numbers. It is necessary because sometimes in text data numbers are grouped by commas(,)
-    
-    :param text: Input text to degroup numbers inside it
+
+    Args:
+        text (str): Input text to degroup numbers inside it
+
+    Returns:
+        str: Modified text
     """
     text = re.sub(r"(?<=\d),(?=\d)", "",text)
     return text
 
-
-
-
 # Removing hyphen (-)
 def remove_hyphen(text: str)-> str:
     """Given raw string replace hyphen (-) with a blank space.
-    
-    :param text: Input text to replace hyphen with a space
+
+    Args:
+        text (str): Input text to replace hyphen with a space
+
+    Returns:
+        str: Modified text
     """
     text = re.sub("-", " ",text)
     return text
 
-
-
-
 # Returns whole numbers in english
-def int_to_en(num):
-    
+def int_to_en(num:int):
     """Returns whole numbers in english text.
-    
-    :param num: Input str or int
+
+    Args:
+        num (int): Input str or int
+
+    Returns:
+        str: string
     """
     num  = abs(int(num))
     d = {0 : 'zero', 
@@ -88,46 +90,59 @@ def int_to_en(num):
     b = m * 1000
     t = b * 1000
 
-    #assert(0 <= num)
+    # assert(0 <= num)
 
     if (num < 20):
         return d[num]
 
     if (num < 100):
-        if num % 10 == 0: return d[num]
-        else: return d[num // 10 * 10] + '-' + d[num % 10]
+        if num % 10 == 0:
+            return d[num]
+        else:
+            return d[num // 10 * 10] + '-' + d[num % 10]
 
     if (num < k):
-        if num % 100 == 0: return d[num // 100] + ' hundred'
-        else: return d[num // 100] + ' hundred and ' + int_to_en(num % 100)
+        if num % 100 == 0:
+            return d[num // 100] + ' hundred'
+        else:
+            return d[num // 100] + ' hundred and ' + int_to_en(num % 100)
 
     if (num < m):
-        if num % k == 0: return int_to_en(num // k) + ' thousand'
-        else: return int_to_en(num // k) + ' thousand ' + int_to_en(num % k)
+        if num % k == 0:
+            return int_to_en(num // k) + ' thousand'
+        else:
+            return int_to_en(num // k) + ' thousand ' + int_to_en(num % k)
 
     if (num < b):
-        if (num % m) == 0: return int_to_en(num // m) + ' million'
-        else: return int_to_en(num // m) + ' million ' + int_to_en(num % m)
+        if (num % m) == 0:
+            return int_to_en(num // m) + ' million'
+        else:
+            return int_to_en(num // m) + ' million ' + int_to_en(num % m)
 
     if (num < t):
-        if (num % b) == 0: return int_to_en(num // b) + ' billion'
-        else: return int_to_en(num // b) + ' billion ' + int_to_en(num % b)
+        if (num % b) == 0:
+            return int_to_en(num // b) + ' billion'
+        else:
+            return int_to_en(num // b) + ' billion ' + int_to_en(num % b)
 
-    if (num % t == 0): return int_to_en(num // t) + ' trillion'
-    else: return int_to_en(num // t) + ' trillion ' + int_to_en(num % t)
+    if (num % t == 0):
+        return int_to_en(num // t) + ' trillion'
+    else:
+        return int_to_en(num // t) + ' trillion ' + int_to_en(num % t)
 
     raise AssertionError('num is too large: %s' % str(num))
 
 
-
-
-
-
 # Return english of numbers one by one from left to right
-def num_to_en(num):
+def num_to_en(num:int)->str:
     """Return english text of number one by one from left to right.
-    
-    :param num: Input str or int
+
+    Args:
+        num (int): Number
+
+
+    Returns:
+        str: String
     """
     num = str(num)
     d = {'0' : 'zero', 
@@ -140,8 +155,6 @@ def num_to_en(num):
          '7' : 'seven', 
          '8' : 'eight', 
          '9' : 'nine'}
-    
-
     
     if len(num) ==1:
         return d[num]
@@ -177,14 +190,15 @@ def num_to_en(num):
     raise AssertionError('number in decimal place is too large')
 
 
-
-
 # Converting floating point numbers into english text
-
-def float_to_en(f)-> str:
+def float_to_en(f:float)-> str:
     """Return english text of floating point numbers.
-    
-    :param num: Input str or int
+
+    Args:
+        f (float): Floating point number
+
+    Returns:
+        str: English text translation of the floating point number
     """
     # Converitng the floaing point into string
     f = str(f)
@@ -199,12 +213,16 @@ def float_to_en(f)-> str:
     
 
 # Replacing all the whole numbers inside string into English text
-
 def int_to_text(text: str)-> str:
     """Replacing all the whole numbers inside string into English text.
-    
-    :param num: Input str
+
+    Args:
+        text (str): Input string
+
+    Returns:
+        str: Modified string
     """
+
     # Split the string into words
     words = text.split() 
     # Iterate over the words and replace any numbers with their text representation
@@ -218,12 +236,15 @@ def int_to_text(text: str)-> str:
 
 
 # Replacing all the positive non interger numbers inside string into English text
-
 def float_to_text(string: str)-> str:
     """Replacing all the flaoting point numbers inside string into English text.
-    
-    :param num: Input str
-    """ 
+
+    Args:
+        string (str): Input string
+
+    Returns:
+        str: Modified string
+    """
     words = []
     for word in string.split():
         try:
@@ -236,13 +257,15 @@ def float_to_text(string: str)-> str:
 
 
 # Decontracting strings
-
 def decontract_strings(string: str)-> str:
-    """Decontracting strings.
-    
-    :param num: Input str
-    """ 
-    
+    """Decontracts input strings.
+
+    Args:
+        string (str): Input string
+
+    Returns:
+        str: Modified string
+    """
     # Doing for ' symbol
     # specific
     string = re.sub(r"won't", "will not", string)
@@ -276,13 +299,15 @@ def decontract_strings(string: str)-> str:
 
 
 # Emoji remover
-
 def remove_emoji(string: str)-> str:
-    """Cleanes emoji inside text.
-    
-    :param num: Input str
+    """Removes emojies from the input string
+
+    Args:
+        string (str): Input string
+
+    Returns:
+        str: Modified string
     """
-    
     emoji_pattern = re.compile("["
                                u"\U0001F600-\U0001F64F"  # emoticons
                                u"\U0001F300-\U0001F5FF"  # symbols & pictographs
@@ -309,8 +334,12 @@ def remove_emoji(string: str)-> str:
 # Final Cleaning
 def clean_text(text: str)-> str:
     """Cleanes every unnecessary special characters inside text.
-    
-    :param num: Input str
+
+    Args:
+        text (str): Input string
+
+    Returns:
+        str: Modified string
     """
     text = re.sub("'", "",text)
     text= re.sub('@[A-Za-z0-9]+','',text ) #removing mentions
@@ -344,10 +373,27 @@ def lowercase(text: str)-> str:
 
 
 # Correcting spelling mistakes
-autocorrect = Speller()
+def autocorrect(text:str, default_language_code = 'en')-> str:
+    """This function autocorrects input text
 
+    Args:
+        text (str): Input string
+        default_language_code (str, optional): Language code. Defaults to 'en'. Other available languages: ["en","pl","ru","uk","tr","es","pt","cs","el","it","fr","vi"]
 
+    Returns:
+        str: Modified text
+    """
 
+    # Create a Speller instance
+    spell = Speller(default_language_code)
+
+    # Split the input text into words, autocorrect each word, and join them back
+    corrected_words = [spell(word) for word in text.split()]
+
+    # Join the corrected words to form the autocorrected text
+    autocorrected_text = ' '.join(corrected_words)
+
+    return autocorrected_text
 
 # Lematization
 def lemmatize(text: str)-> str:
@@ -359,35 +405,34 @@ def lemmatize(text: str)-> str:
     words = [lemmatizer.lemmatize(word,pos='v') for word in words]
     return ' '.join(words)
 
-
-
-
 # Removing Stop words
+def remove_sw(text: str,
+              custom_stopwords = [],
+              ignored_stopwords = [],
+              default_language = 'english')-> str:
+    """This function removes the stopwords
 
-# List of words we dont want to remove from the list of stop words
-list_of_words = []  # Add later
+    Args:
+        text (str): String object
+        custom_stopwords (list, optional): List of custom stopwords. Defaults to [].
+        ignored_stopwords (list, optional): List of stopwords to be ignored. Defaults to [].
+        default_language (str, optional): Default language of the text. Defaults to 'english'.
 
-# Creating a custom list of stopwords
-stopwords_ = set(stopwords.words('english'))
-s = set(list_of_words)
-custom_stopwords_ = list(stopwords_ - s)
-
-def remove_sw(text: str)-> str:
-    """Removes the stopwords.
-    
-    :param num: Input str
+    Returns:
+        str: Modified text with removed stopwords
     """
-    words = [word for word in text.split() if word.lower() not in custom_stopwords_]
-    return " ".join(words)
 
-
-
-
- 
-
-
-
-
+    if (len(custom_stopwords) > 0) | (len(ignored_stopwords) > 0):
+        stopwords_ = set(stopwords.words(default_language)).union(set([custom_word.lower() for custom_word in custom_stopwords]))
+        stopwords_ = list(
+            stopwords_ - set([ignored_words.lower() for ignored_words in ignored_stopwords])
+        )
+        words = [word for word in text.split() if word.lower() not in stopwords_]
+        return " ".join(words)
+    else:
+        stopwords_ = stopwords.words(default_language)
+        words = [word for word in text.split() if word.lower() not in stopwords_]
+        return " ".join(words)
 
 def clean(text: str,  # pylint: disable=too-many-arguments, too-many-branches
           clean_all: bool = True,
